@@ -1,7 +1,9 @@
-/*
- * Create a list that holds all of your cards
- */
-const cardList = [
+/* creating variables */
+let movesCounter = 0;
+let deck = document.querySelector ('.deck');
+
+//array of icons
+const iconsList = [
   'fa-diamond',
   'fa-paper-plane-o',
   'fa-anchor',
@@ -20,9 +22,9 @@ const cardList = [
   'fa-bomb'
 ]
 
-// creating variables
-let movesCounter = 0;
-let deck = document.querySelector ('.deck');
+//array of clicked cards
+let flippedCardList = [];
+
 
 /*
  * Display the cards on the page
@@ -46,22 +48,48 @@ function shuffle(array) {
     return array;
 }
 
-//shuffle cards
-shuffle(cardList);
+
 
 // Create deck of cards
 function deckCreation(){
-  for (let i = 0; i < cardList.length; i++) {
+  for (let i = 0; i < iconsList.length; i++) {
     //create li element with card class
     let cardLi = document.createElement('li');
     cardLi.classList.add('card');
     //create icon inside li element
     let cardIcon = document.createElement('i');
-    cardIcon.classList.add('fa', cardList[i]);
+    cardIcon.classList.add('fa', iconsList[i]);
     cardLi.appendChild(cardIcon);
     //append card to deck
     deck.appendChild(cardLi);
   }
 }
 
+
+// Function for flipping card when clicked
+function flipCard() {
+  //add move when clicked
+  movesCounter += 1;
+  //add clicked card to the flipped card penCardArray
+  this.classList.add('open', 'show');
+  //add open class to clicked card
+  }
+
+
+
+// Add event listener for click on card
+function addEvent () {
+  let cards = document.getElementsByClassName('card');
+  for (let i = 0; i < (cards.length); i++) {
+    cards[i].addEventListener('click', flipCard);
+  }
+}
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+//shuffle cards
+shuffle(iconsList);
 deckCreation();
+addEvent();
+})
