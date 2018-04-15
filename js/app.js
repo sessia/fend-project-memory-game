@@ -25,14 +25,6 @@ const iconsList = [
 //array of clicked cards
 let flippedCardList = [];
 
-
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
-
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
@@ -65,18 +57,6 @@ function deckCreation(){
   }
 }
 
-
-// Function for flipping card when clicked
-function flipCard() {
-  //add move when clicked
-  movesCounter += 1;
-  //add clicked card to the flipped card penCardArray
-  this.classList.add('open', 'show');
-  //add open class to clicked card
-  }
-
-
-
 // Add event listener for click on card
 function addEvent () {
   let cards = document.getElementsByClassName('card');
@@ -85,6 +65,45 @@ function addEvent () {
   }
 }
 
+// Function for flipping card when clicked
+
+function flipCard() {
+  let cardListLength = flippedCardList.length;
+	if(cardListLength < 2){
+    //add clicked card to the flipped card Array
+    flippedCardList.push(this);
+    //add open class to clicked card
+    this.classList.add('open', 'show');
+    cardMatch();
+  }
+}
+
+// Function for moves counter
+function addMove(){
+  movesCounter += 1;
+  document.querySelector('.moves').innerHTML = movesCounter;
+}
+
+// Function to test if cards are Matching
+function cardMatch () {
+  if (flippedCardList[0].innerHTML === flippedCardList[1].innerHTML){
+    flippedCardList[0].classList.add('match');
+	  flippedCardList[1].classList.add('match');
+    flippedCardList = [];
+    //add move when clicked
+    addMove();
+  }
+  else if (flippedCardList[0].innerHTML != flippedCardList[1].innerHTML){
+    flippedCardList[0].classList.add('unmatch');
+    flippedCardList[1].classList.add('unmatch');
+    addMove();
+    setTimeout(function(){
+      flippedCardList[0].classList.remove("show", "open", "unmatch");
+  		flippedCardList[1].classList.remove("show", "open", "unmatch");
+      flippedCardList = [];
+  	  }, 1200);
+  }
+}
 
 
 document.addEventListener('DOMContentLoaded', function() {
