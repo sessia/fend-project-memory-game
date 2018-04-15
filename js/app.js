@@ -74,8 +74,10 @@ function flipCard() {
     flippedCardList.push(this);
     //add open class to clicked card
     this.classList.add('open', 'show');
+    if(cardListLength != 0){
     cardMatch();
   }
+}
 }
 
 // Function for moves counter
