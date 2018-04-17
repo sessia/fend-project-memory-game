@@ -3,6 +3,7 @@ let movesCounter = 0;
 const deck = document.querySelector ('.deck');
 const stars = document.getElementsByClassName('fa-star');
 const restart = document.querySelector(".restart");
+let cards = document.getElementsByClassName('card');
 
 //timer variables
 let timer = document.querySelector(".timer");
@@ -69,7 +70,6 @@ function deckCreation(){
 
 // Add event listener for click on card
 function addEvent () {
-  let cards = document.getElementsByClassName('card');
   for (let i = 0; i < (cards.length); i++) {
       cards[i].addEventListener('click', flipCard);
   }
@@ -156,11 +156,45 @@ function startTimer(){
 	}, 1000);
 }
 
+
+//Add event lister for click on restart
+restart.addEventListener('click', reset);
+
+//Function for resetting
+function reset(){
+/*reset list of open cards*/
+  flippedCardList = [];
+
+/*close all cards*/
+for (let i = 0; i < (cards.length); i++) {
+    cards[i].classList.remove("show", "open", "unmatch", "match");
+}
+
+/*reset moves*/
+  movesCounter = 0;
+  document.querySelector('.moves').innerHTML =movesCounter;
+
+/*reset rating*/
+	stars[0,1,2].setAttribute('class','fa fa-star');
+
+/*Reset the timer*/
+	clearInterval(interval);
+	second = 0;
+	minute = 0;
+	hour = 0;
+  let minutes = 0;
+  let seconds = 0;
+}
+
+//Stop the game - timeout after 1 hour
+if (hour === 1){
+
+}
+
 document.addEventListener('DOMContentLoaded', function() {
 //shuffle cards
 shuffle(iconsList);
 deckCreation();
 addEvent();
-
 
 })
