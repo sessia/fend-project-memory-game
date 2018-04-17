@@ -61,7 +61,7 @@ function deckCreation(){
 function addEvent () {
   let cards = document.getElementsByClassName('card');
   for (let i = 0; i < (cards.length); i++) {
-    cards[i].addEventListener('click', flipCard);
+      cards[i].addEventListener('click', flipCard);
   }
 }
 
@@ -69,13 +69,14 @@ function addEvent () {
 
 function flipCard() {
   let cardListLength = flippedCardList.length;
-	if(cardListLength < 2){
+	if((cardListLength < 2) && (!this.classList.contains('open'))){
     //add clicked card to the flipped card Array
     flippedCardList.push(this);
     //add open class to clicked card
     this.classList.add('open', 'show');
     if(cardListLength != 0){
     cardMatch();
+    rating();
   }
 }
 }
@@ -107,10 +108,24 @@ function cardMatch () {
   }
 }
 
+// Function to change star creating
+function rating(){
+  let stars = document.getElementsByClassName('fa-star');
+  if (movesCounter === 6){
+    stars[2].setAttribute('class','fa fa-star-o');
+  }
+  else if (movesCounter === 11){
+    stars[1].setAttribute('class','fa fa-star-o');
+  }
+  else if (movesCounter === 16){
+    stars[0].setAttribute('class','fa fa-star-o');
+  }
+}
 
 document.addEventListener('DOMContentLoaded', function() {
 //shuffle cards
 shuffle(iconsList);
 deckCreation();
 addEvent();
+
 })
