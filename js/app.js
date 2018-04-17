@@ -1,6 +1,16 @@
 /* creating variables */
 let movesCounter = 0;
-let deck = document.querySelector ('.deck');
+const deck = document.querySelector ('.deck');
+const stars = document.getElementsByClassName('fa-star');
+const restart = document.querySelector(".restart");
+
+//timer variables
+let timer = document.querySelector(".timer");
+let second = 0;
+let minute = 0;
+let hour = 0;
+let interval;
+
 
 //array of icons
 const iconsList = [
@@ -68,6 +78,10 @@ function addEvent () {
 // Function for flipping card when clicked
 
 function flipCard() {
+  //start timer
+  if (minute === 0 && hour === 0 && second === 0){
+		startTimer();
+	}
   let cardListLength = flippedCardList.length;
 	if((cardListLength < 2) && (!this.classList.contains('open'))){
     //add clicked card to the flipped card Array
@@ -108,9 +122,9 @@ function cardMatch () {
   }
 }
 
-// Function to change star creating
+// Function to change star rating
 function rating(){
-  let stars = document.getElementsByClassName('fa-star');
+
   if (movesCounter === 6){
     stars[2].setAttribute('class','fa fa-star-o');
   }
@@ -122,10 +136,31 @@ function rating(){
   }
 }
 
+//Function for timer
+function startTimer(){
+		interval = setInterval(function(){
+    let minutes = document.querySelector(".minutes");
+    let seconds = document.querySelector(".seconds");
+		minutes.innerHTML = minute;
+    seconds.innerHTML = second;
+		second++;
+		if(second === 60){
+			second = 0;
+      minute++;
+
+		}
+		if(minute === 60){
+			minute = 0;
+      hour++;
+		}
+	}, 1000);
+}
+
 document.addEventListener('DOMContentLoaded', function() {
 //shuffle cards
 shuffle(iconsList);
 deckCreation();
 addEvent();
+
 
 })
