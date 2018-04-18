@@ -61,9 +61,9 @@ function shuffle(array) {
 //Function to start the game
 function startGame(){
   shuffle(iconsList);
-  if (deck.innerHTML===''){
-    deckCreation();
-  }
+  /*empty the deck if it already exists*/
+  deck.innerHTML='';
+  deckCreation();
   addEvent();
   /*close all cards*/
   for (let i = 0; i < (cards.length); i++) {
