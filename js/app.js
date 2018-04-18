@@ -1,9 +1,10 @@
 /* creating variables */
 let movesCounter = 0;
 const deck = document.querySelector ('.deck');
+let cards = document.getElementsByClassName('card');
+let matchedCards = document.getElementsByClassName("match");
 const stars = document.getElementsByClassName('fa-star');
 const restart = document.querySelector(".restart");
-let cards = document.getElementsByClassName('card');
 
 //timer variables
 let timer = document.querySelector(".timer");
@@ -11,7 +12,8 @@ let second = 0;
 let minute = 0;
 let hour = 0;
 let interval;
-
+let minutes = document.querySelector(".minutes");
+let seconds = document.querySelector(".seconds");
 
 //array of icons
 const iconsList = [
@@ -36,6 +38,11 @@ const iconsList = [
 //array of clicked cards
 let flippedCardList = [];
 
+//array of matched cards
+let matchesCounter = 0;
+
+const modal = document.getElementById('winnerModal');
+
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
@@ -51,7 +58,30 @@ function shuffle(array) {
     return array;
 }
 
-
+//Function to start the game
+function startGame(){
+  shuffle(iconsList);
+  if (deck.innerHTML===''){
+    deckCreation();
+  }
+  addEvent();
+  /*close all cards*/
+  for (let i = 0; i < (cards.length); i++) {
+      cards[i].classList.remove("show", "open", "unmatch", "match");
+  }
+  /*reset moves*/
+    movesCounter = 0;
+    document.querySelector('.moves').innerHTML =movesCounter;
+  /*reset rating*/
+  	stars[0,1,2].setAttribute('class','fa fa-star');
+  /*Reset the timer*/
+  	clearInterval(interval);
+  	second = 0;
+  	minute = 0;
+  	hour = 0;
+    minutes.innerHTML = minute;
+    seconds.innerHTML = second;
+}
 
 // Create deck of cards
 function deckCreation(){
@@ -72,6 +102,8 @@ function deckCreation(){
 function addEvent () {
   for (let i = 0; i < (cards.length); i++) {
       cards[i].addEventListener('click', flipCard);
+      //check if the player won the game
+      cards[i].addEventListener('click', winner);
   }
 }
 
@@ -125,13 +157,13 @@ function cardMatch () {
 // Function to change star rating
 function rating(){
 
-  if (movesCounter === 6){
+  if (movesCounter === 11){
     stars[2].setAttribute('class','fa fa-star-o');
   }
-  else if (movesCounter === 11){
+  else if (movesCounter === 21){
     stars[1].setAttribute('class','fa fa-star-o');
   }
-  else if (movesCounter === 16){
+  else if (movesCounter === 31){
     stars[0].setAttribute('class','fa fa-star-o');
   }
 }
@@ -139,8 +171,6 @@ function rating(){
 //Function for timer
 function startTimer(){
 		interval = setInterval(function(){
-    let minutes = document.querySelector(".minutes");
-    let seconds = document.querySelector(".seconds");
 		minutes.innerHTML = minute;
     seconds.innerHTML = second;
 		second++;
@@ -164,37 +194,53 @@ restart.addEventListener('click', reset);
 function reset(){
 /*reset list of open cards*/
   flippedCardList = [];
-
-/*close all cards*/
-for (let i = 0; i < (cards.length); i++) {
-    cards[i].classList.remove("show", "open", "unmatch", "match");
+  startGame();
 }
 
-/*reset moves*/
-  movesCounter = 0;
-  document.querySelector('.moves').innerHTML =movesCounter;
-
-/*reset rating*/
-	stars[0,1,2].setAttribute('class','fa fa-star');
-
-/*Reset the timer*/
-	clearInterval(interval);
-	second = 0;
-	minute = 0;
-	hour = 0;
-  let minutes = 0;
-  let seconds = 0;
+//Winning Function
+/*function showing the modal with congratulations*/
+function winner(){
+	if(matchedCards.length == 16){
+    /*Stop the timer*/
+    clearInterval(interval);
+		/*save the time took to win*/
+    let yourTime = timer.innerHTML;
+		/*save the final star rating*/
+		let yourRating = document.querySelector(".stars").innerHTML;
+    /*show modal popup*/
+		modal.style.display = "block";
+		/*show results on modal*/
+		document.getElementById("yourMoves").innerHTML = movesCounter;
+		document.getElementById("yourRating").innerHTML = yourRating;
+		document.getElementById("yourTime").innerHTML = yourTime;
+	};
 }
+
+//function to close the modal
+let closeSpan = document.querySelector('.close');
+closeSpan.onclick = function() {
+    modal.style.display = "none";
+}
+
+//close modal if the user clicks outside of the modal
+window.onclick = function (e) {
+		if (e.target == modal) {
+		    modal.style.display = "none";
+		}
+	}
 
 //Stop the game - timeout after 1 hour
 if (hour === 1){
-
+  clearInterval(interval);
+loserModal.classList.add("show");
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-//shuffle cards
-shuffle(iconsList);
-deckCreation();
-addEvent();
+//Start new game when clicking on button inside modal
+document.querySelector(".restartButton").addEventListener("click", function(){
+	modal.style.display = "none";
+	startGame();
+});
 
+document.addEventListener('DOMContentLoaded', function() {
+startGame();
 })
