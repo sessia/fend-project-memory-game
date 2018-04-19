@@ -136,19 +136,19 @@ function addMove(){
 // Function to test if cards are Matching
 function cardMatch () {
   if (flippedCardList[0].innerHTML === flippedCardList[1].innerHTML){
-    flippedCardList[0].classList.add('match');
-	  flippedCardList[1].classList.add('match');
+    flippedCardList[0].classList.add('match', 'tada');
+	  flippedCardList[1].classList.add('match', 'tada');
     flippedCardList = [];
     //add move when clicked
     addMove();
   }
   else if (flippedCardList[0].innerHTML != flippedCardList[1].innerHTML){
-    flippedCardList[0].classList.add('unmatch');
-    flippedCardList[1].classList.add('unmatch');
+    flippedCardList[0].classList.add('unmatch', 'wobble');
+    flippedCardList[1].classList.add('unmatch', 'wobble');
     addMove();
     setTimeout(function(){
-      flippedCardList[0].classList.remove("show", "open", "unmatch");
-  		flippedCardList[1].classList.remove("show", "open", "unmatch");
+      flippedCardList[0].classList.remove('show', 'open', 'unmatch', 'wobble');
+  		flippedCardList[1].classList.remove('show', 'open', 'unmatch', 'wobble');
       flippedCardList = [];
   	}, 1200);
   }
