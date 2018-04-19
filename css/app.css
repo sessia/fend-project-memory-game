@@ -148,7 +148,7 @@ h1 {
     width: 80%;
 }
 
-.close {
+.close, .closeLoser {
     color: #000;
     float: right;
     font-size: 28px;
@@ -156,7 +156,9 @@ h1 {
 }
 
 .close:hover,
-.close:focus {
+.close:focus,
+.closeLoser:hover,
+.closeLoser:focus {
     color: #c00;
     text-decoration: none;
     cursor: pointer;

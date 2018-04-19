@@ -123,8 +123,8 @@ function flipCard() {
     if(cardListLength != 0){
     cardMatch();
     rating();
+    }
   }
-}
 }
 
 // Function for moves counter
@@ -150,13 +150,12 @@ function cardMatch () {
       flippedCardList[0].classList.remove("show", "open", "unmatch");
   		flippedCardList[1].classList.remove("show", "open", "unmatch");
       flippedCardList = [];
-  	  }, 1200);
+  	}, 1200);
   }
 }
 
 // Function to change star rating
 function rating(){
-
   if (movesCounter === 11){
     stars[2].setAttribute('class','fa fa-star-o');
   }
@@ -170,19 +169,21 @@ function rating(){
 
 //Function for timer
 function startTimer(){
-		interval = setInterval(function(){
-		minutes.innerHTML = minute;
+	interval = setInterval(function(){
+    minutes.innerHTML = minute;
     seconds.innerHTML = second;
 		second++;
 		if(second === 60){
 			second = 0;
       minute++;
-
-		}
-		if(minute === 60){
-			minute = 0;
+	  }
+	  if(minute === 60){
+		  minute = 0;
       hour++;
 		}
+    if (minute > 10){
+      gameOver();
+    }
 	}, 1000);
 }
 
@@ -214,25 +215,12 @@ function winner(){
 		document.getElementById("yourRating").innerHTML = yourRating;
 		document.getElementById("yourTime").innerHTML = yourTime;
 	};
-}
 
-//function to close the modal
-let closeSpan = document.querySelector('.close');
-closeSpan.onclick = function() {
-    modal.style.display = "none";
-}
-
-//close modal if the user clicks outside of the modal
-window.onclick = function (e) {
-		if (e.target == modal) {
-		    modal.style.display = "none";
-		}
-	}
-
-//Stop the game - timeout after 1 hour
-if (hour === 1){
-  clearInterval(interval);
-loserModal.classList.add("show");
+  //function to close the modal
+  let closeSpan = document.querySelector('.close');
+  closeSpan.onclick = function() {
+      modal.style.display = "none";
+  }
 }
 
 //Start new game when clicking on button inside modal
@@ -240,6 +228,34 @@ document.querySelector(".restartButton").addEventListener("click", function(){
 	modal.style.display = "none";
 	startGame();
 });
+
+
+//Stop the game - timeout after 10 minutes
+function gameOver(){
+  clearInterval(interval);
+  loserModal.style.display = "block";
+  //function to close the loser modal
+  let closeLoser = document.querySelector('.closeLoser');
+  closeLoser.onclick = function() {
+      loserModal.style.display = "none";
+      startGame();
+  }
+  //Start new game when clicking on button inside loser modal
+  document.querySelector(".restartLoser").addEventListener("click", function(){
+    loserModal.style.display = "none";
+  	startGame();
+  });
+}
+
+//close modal if the user clicks outside of the modal
+window.onclick = function (e) {
+  if (e.target == modal) {
+     modal.style.display = "none";
+  }
+  else if (e.target == loserModal) {
+     loserModal.style.display = "none";
+  }
+}
 
 document.addEventListener('DOMContentLoaded', function() {
 startGame();
