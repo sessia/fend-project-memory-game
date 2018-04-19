@@ -219,7 +219,8 @@ function winner(){
   //function to close the modal
   let closeSpan = document.querySelector('.close');
   closeSpan.onclick = function() {
-      modal.style.display = "none";
+    modal.style.display = "none";
+    startGame();
   }
 }
 
