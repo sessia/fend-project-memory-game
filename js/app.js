@@ -175,13 +175,13 @@ function addMove(){
 
 // Function to change star rating
 function rating(){
-  if (movesCounter === 3){
+  if (movesCounter === 11){
     stars[2].setAttribute('class','fa fa-star-o');
   }
-  else if (movesCounter === 6){
+  else if (movesCounter === 21){
     stars[1].setAttribute('class','fa fa-star-o');
   }
-  else if (movesCounter === 9){
+  else if (movesCounter === 31){
     stars[0].setAttribute('class','fa fa-star-o');
   }
 }
